@@ -6,7 +6,7 @@ import useConnectSession from "@/hooks/useConnectSession"
 import { useEffect, use, useRef } from "react"
 
 interface SurveySessionProps {
-  params: Promise<{ clientId: string }>
+  params: Promise<{ clientId: string; documentId: string }>
 }
 
 export default function SurveySession({ params }: SurveySessionProps) {
@@ -14,12 +14,13 @@ export default function SurveySession({ params }: SurveySessionProps) {
   const chHook = useChatHistory()
   const aiMessageHandlerRef = useRef(chHook.handleAiMessage)
   const { sendMessage, WSRef } = useConnectSession(
+    resolvedParams.documentId,
     resolvedParams.clientId,
     chHook.handleAiMessage
   )
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex h-full overflow-auto">
       <ChatComponent
         chatHistoryHook={chHook}
         ws={WSRef.current}

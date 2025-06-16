@@ -8,6 +8,7 @@ interface Message {
 }
 
 export default function useConnectSession(
+  documentId: string,
   clientId: string,
   aiMessageHandler?: (role: ChatRoles, message: string) => void
 ) {
@@ -24,15 +25,18 @@ export default function useConnectSession(
     }
 
     const ws = new WebSocket(
-      `${process.env.NEXT_PUBLIC_WS_SESSION_CONNECTION}/${clientId}`
+      `${process.env.NEXT_PUBLIC_WS_SESSION_CONNECTION}/${documentId}/${clientId}`
     )
 
     ws.onopen = () => {
       console.log("WebSocket connection established")
+      // sendMessage({
+      //   message:
+      //     "Introduce yourself as a medical surveyor without mentioning any name and conduct the session.",
+      // })
     }
 
     ws.onmessage = (event) => {
-      console.log("Message from server:", event.data)
       try {
         const data = JSON.parse(event.data)
         if (data.reply && aiMessageHandler) {
@@ -56,9 +60,10 @@ export default function useConnectSession(
     WSRef.current = ws
 
     return () => {
-      if (WSRef.current) {
+      // Check if connection exists and is open before closing
+      if (WSRef.current?.readyState === WebSocket.OPEN) {
+        console.log("Cleaning up WebSocket connection")
         WSRef.current.close()
-        WSRef.current = null
       }
     }
   }, [])
