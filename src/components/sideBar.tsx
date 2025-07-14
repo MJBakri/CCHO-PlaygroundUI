@@ -7,6 +7,7 @@ import {
   Play,
   Search,
   Settings,
+  Table2,
   X,
 } from "lucide-react"
 import {
@@ -26,6 +27,11 @@ const documentItems = [
     title: "Survey Library",
     url: "/survey-library",
     icon: LibraryBig,
+  },
+  {
+    title: "Survey Analytics",
+    url: "/analytics-library",
+    icon: Table2,
   },
 ]
 const promptItems = [

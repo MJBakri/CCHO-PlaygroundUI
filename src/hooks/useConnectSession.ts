@@ -10,6 +10,7 @@ interface Message {
 export default function useConnectSession(
   documentId: string,
   clientId: string,
+  sessionConnection: string,
   aiMessageHandler?: (role: ChatRoles, message: string) => void
 ) {
   const WSRef = useRef<WebSocket | null>(null)
@@ -18,15 +19,13 @@ export default function useConnectSession(
     console.log(
       "Connecting to WebSocket with clientId:",
       clientId,
-      process.env.NEXT_PUBLIC_WS_SESSION_CONNECTION
+      sessionConnection
     )
     if (WSRef.current) {
       return
     }
 
-    const ws = new WebSocket(
-      `${process.env.NEXT_PUBLIC_WS_SESSION_CONNECTION}/${documentId}/${clientId}`
-    )
+    const ws = new WebSocket(`${sessionConnection}/${documentId}/${clientId}`)
 
     ws.onopen = () => {
       console.log("WebSocket connection established")

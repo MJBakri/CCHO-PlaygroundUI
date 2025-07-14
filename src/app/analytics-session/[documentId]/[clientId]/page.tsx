@@ -16,7 +16,7 @@ export default function SurveySession({ params }: SurveySessionProps) {
   const { sendMessage, WSRef } = useConnectSession(
     resolvedParams.documentId,
     resolvedParams.clientId,
-    process.env.NEXT_PUBLIC_WS_SESSION_CONNECTION || "",
+    process.env.NEXT_PUBLIC_WS_ANALYTICS_SESSION_CONNECTION || "",
     chHook.handleAiMessage
   )
 

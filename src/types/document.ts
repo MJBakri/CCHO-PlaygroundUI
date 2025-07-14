@@ -13,3 +13,14 @@ interface Survey {
     whole_document: string
   }
 }
+
+interface Analytics {
+  title: string
+  description: string | null
+  file_name: string
+  document_id: string
+  uploaded_on: number
+  content: {
+    whole: string
+  }
+}
